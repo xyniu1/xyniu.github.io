@@ -7,10 +7,10 @@
 
 # Site Settings
 locale                   : "en-US"
-title                    : "xueyan (julie) niu"
+title                    : "Julie's Homepage"
 title_separator          : "-"
 name                     : &name "xueyan (julie) niu"
-description              : &description "phd in neural science @ nyu"
+description              : &description "phd in comp neuro @ nyu"
 url                      : https://xyniu1.github.io # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
 baseurl                  : "" # the subpath of your site, e.g. "/blog"
 repository               : "xyniu1/xyniu1.github.io"
@@ -82,7 +82,7 @@ analytics:
 author:
   name             : "xueyan (julie) niu"
   avatar           : "profile.png"
-  bio              : "phd in neural science @ nyu"
+  bio              : "phd in comp neuro @ nyu"
   location         : "new york, ny"
   employer         :
   pubmed           : # "https://www.ncbi.nlm.nih.gov/pubmed/?term=john+snow"
