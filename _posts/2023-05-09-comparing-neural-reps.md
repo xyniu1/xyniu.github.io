@@ -1,7 +1,7 @@
 ---
 title: 'Comparing artificial neural representations with the brain'
 date: 2023-05-09
-permalink: /posts/comparing-neural-reps
+permalink: /posts/2023/05/comparing-neural-reps
 tags:
   - neural reps
   - perception
