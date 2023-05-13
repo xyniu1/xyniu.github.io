@@ -6,7 +6,6 @@ tags:
   - neural reps
   - perception
 ---
-
 Artificial neural networks have countless forms - they have different architectures, they are trained with different objective functions, they use different parameters and hyperparameters, and with all those fixed, random initializations can lead to drastically distinct results. Although deep networks have made remarkable empirical progress, not much success has been made in understanding and characterizing their representations. One such metric is, how much are they like the brain?
 
 The blog post reviews several notable methods in the literature that characterize the similarity between ANN representations and the brain on different levels: on the level of population response, and on the level of "behavior" - either performance on downstream tasks, or perceptual implications. Some content is emoji-coded 🛎️ 🟦 🧠 ⚪. For each of the method, I will -
@@ -63,6 +62,21 @@ There is a perhaps more popular way of doing dimension reduction, **PCA**, princ
 
 In practice, brain-score first applies PCA on ANN responses, then carry out PLS between ANNs and the neural responses (in V4 and IT).
 
+The family of linear regression methods is perhaps the most classical one, and remains an important benchmark. Since it is so popular and easy to use, it's good to be cautious about its limitations:
+1. The vanilla linear regression is not symmetric - switching the dependent and independent variables (or the source and target system) will give a different $R^2$ score;
+2. They are invariant to invertible linear transformations. If we define $\hat{\mathbf{X}}=\mathbf{XM}$, $\hat{\mathbf{Y}}=\mathbf{YN}$, where $\mathbf{M}$ and $\mathbf{N}$ are invertible, then these methods will give the same score for $\text{cov}$ or $\text{corr}$. One need to think through whether this is the desirable scenario. Moreover, if the network is very wide, i.e., the number of neurons is close to or even larger than the number of observations, then it is easy to find $\mathbf{M}$ and $\mathbf{N}$ to make $\hat{\mathbf{X}}$ and $\hat{\mathbf{Y}}$ very similar, giving a falsely high similarity score.
+
+Centered Kernal Alignment
+-----
+
+Statistical Shape Analysis
+-----
+A huge pitfall of all the methods discussed above is, they do not always obey triangle inequality, i.e., $d(\mathbf{A}, \mathbf{B})+d(\mathbf{B}, \mathbf{C})$ is not ways larger than or equal to $d(\mathbf{A}, \mathbf{C})$. It means they can only be used to compare a pair of networks, but will fall short when it comes to analyzing thousands of networks systematically. Moreover, a lack of a proper distance metric forbids the use of almost all clustering methods, where each network can be represented as a point in the "network space", and can be classified into semantically meaningful groups. 
+
+This is where statistical shape analysis comes in handy, as introduced in [this paper][3] by our very own [Alex Williams][4]. 
+
+
+
 
 
 
@@ -73,3 +87,5 @@ In practice, brain-score first applies PCA on ANN responses, then carry out PLS 
 
 [1]: https://www.biorxiv.org/content/10.1101/407007v2 (Brain Score)
 [2]: https://scikit-learn.org/stable/auto_examples/cross_decomposition/plot_pcr_vs_pls.html (demo)
+[3]: https://openreview.net/forum?id=L9JM-pxQOl
+[4]: http://alexhwilliams.info/
