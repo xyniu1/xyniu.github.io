@@ -85,7 +85,7 @@ This is where statistical shape analysis comes in handy, as introduced in [this 
 
 
 
-[1]: https://www.biorxiv.org/content/10.1101/407007v2 (Brain Score)
-[2]: https://scikit-learn.org/stable/auto_examples/cross_decomposition/plot_pcr_vs_pls.html (demo)
+[1]: https://www.biorxiv.org/content/10.1101/407007v2
+[2]: https://scikit-learn.org/stable/auto_examples/cross_decomposition/plot_pcr_vs_pls.html
 [3]: https://openreview.net/forum?id=L9JM-pxQOl
 [4]: http://alexhwilliams.info/
