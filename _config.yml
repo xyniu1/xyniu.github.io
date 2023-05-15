@@ -155,10 +155,10 @@ markdown_ext: "markdown,mkdown,mkdn,mkd,md"
 
 # Conversion
 markdown: GFM
-highlighter: rouge
-lsi: false
-excerpt_separator: "\n\n"
-incremental: false
+# highlighter: rouge
+# lsi: false
+# excerpt_separator: "\n\n"
+# incremental: false
 
 
 # Markdown Processing
