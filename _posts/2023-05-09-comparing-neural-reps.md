@@ -24,7 +24,7 @@ Problem setup
 
 Let $\mathbf{X}$ be the responses to a set of images in a source system (e.g., a deep ANN), and $\mathbf{Y}$ be the responses in the target system (e.g., neural responses in macaque IT). $\mathbf{X}$ has size $m\times p$, where $m$ is the number of images, $p$ is the number of artificial neurons; $\mathbf{Y}$ has size $m\times n$, where $n$ is the number of neurons recorded in the experiment. 
 
-<img src="../images/setup.svg">
+<img src="./images/setup.svg">
 
 🧠 While the ANN responses are usually static and deterministic, neural activities embed unique time dynamics and are stochastic, i.e., their responses can be different for the same input. For the first problem, the standard practice is to count the number of spikes during a certain time period after the stimulus onset (for example, [Brain Score][1] chooses 70ms to 170ms after image onset). The second problem is more subtle. For most of the methods we discuss, they average the responses over repeated trials, but some argue the trial variability also plays an important role.
 
@@ -87,9 +87,9 @@ One can compare this statistics between the source system and the target system,
 > $$s(\mathbf{{X}}, \mathbf{Y}) = \frac{\langle\text{vec}(\mathbf{X}\mathbf{X^T}), \text{vec}(\mathbf{Y}\mathbf{Y^T})\rangle}{\|\text{vec}(\mathbf{X}\mathbf{X^T})\|\|\text{vec}(\mathbf{Y}\mathbf{Y^T})\|}=\frac{\|\mathbf{X^T}\mathbf{Y}\|_F^2}{\|\mathbf{X^T}\mathbf{X}\|_F\|\mathbf{Y^T}\mathbf{Y}\|_F}, $$
 > where $\|\cdot\|_F$ is the Frobenius norm.
 
-Let's look at this metric more closely. First, it is invariant to isotropic scaling due to the normalizing denominator, which means $s(\mathbf{{X}}, \mathbf{Y})=s(\alpha\mathbf{{X}}, \beta\mathbf{Y})$. Note that it is not invariant to scaling of the whole matrix, not of individual rows or columns of $\mathbf{X}$, which has the flavor of PLS compared to CCA. Second, it is not invariant to any invertible linear transformations, but only to orthogonal matrices $\mathbf{M}$ with $\mathbf{M}\mathbf{M^T}=\mathbf{I}$. It is a more stringent invariance and thus is preferable in the pathological case where the number of neurons is close to the number of images.
+Let's look at this metric more closely. First, it is invariant to isotropic scaling due to the normalizing denominator, which means $s(\mathbf{X}, \mathbf{Y})=s(\alpha\mathbf{X}, \beta\mathbf{Y})$. Note that it is not invariant to scaling of the whole matrix, not of individual rows or columns of $\mathbf{X}$, which has the flavor of PLS compared to CCA. Second, it is not invariant to any invertible linear transformations, but only to orthogonal matrices $\mathbf{M}$ with $\mathbf{M}\mathbf{M^T}=\mathbf{I}$. It is a more stringent invariance and thus is preferable in the pathological case where the number of neurons is close to the number of images.
 
-If we write the rows of $\mathbf{X}$ as $\mathbf{x}_i$, then the $(i,j)$ term of $\mathbf{X^T}\mathbf{X}$ can be written as $(\mathbf{X^T}\mathbf{X})_{i,j}=\langle\mathbf{x}_i, \mathbf{x}_j\rangle$, which is a linear kernel. In fact, we can use other kernels to express the similarity matrix. Let $\mathbf{K}_{ij}=k(\mathbf{x}_i, \mathbf{x}_j)$ and $\mathbf{L}_{ij}=l(\mathbf{y}_i, \mathbf{y}_j)$ where $k$ and $l$ are two kernels, ⚪ then if we further make $\mathbf{K}$ and $\mathbf{L}$ column-centered (since they are symmetric matrices, column-centered would mean row-centered), then we can rewrite the similarity metric as 
+If we write the rows of $\mathbf{X}$ as $\mathbf{x}_{i}$, then the $(i,j)$ term of $\mathbf{X^T}\mathbf{X}$ can be written as $(\mathbf{X^T}\mathbf{X})_{i,j}=\langle\mathbf{x}_i, \mathbf{x}_j\rangle$, which is a linear kernel. In fact, we can use other kernels to express the similarity matrix. Let $\mathbf{K}_{ij}=k(\mathbf{x}_i, \mathbf{x}_j)$ and $\mathbf{L}_{ij}=l(\mathbf{y}_i, \mathbf{y}_j)$ where $k$ and $l$ are two kernels, ⚪ then if we further make $\mathbf{K}$ and $\mathbf{L}$ column-centered (since they are symmetric matrices, column-centered would mean row-centered), then we can rewrite the similarity metric as 
 
 > **CKA:**
 > $$s(\mathbf{X}, \mathbf{Y})=\frac{\langle\text{vec}(\mathbf{K}), \text{vec}(\mathbf{L})\rangle}{\|\text{vec}(\mathbf{K})\|\|\text{vec}(\mathbf{L})\|}=\frac{\|\mathbf{K^T}\mathbf{L}\|_F}{\sqrt{\|\mathbf{K}\|_F \|\mathbf{L}\|_F}}, $$
@@ -100,7 +100,7 @@ with a hyperparameter $\sigma$.
 
 CKA seems to outperform previous methods on analyzing the similarity of ANNs' response across multiple layers. Intuitively, for a feedforward network, consecutive layers should be more similar to each other than layers far away in the stack, when they are trained with different random initializations. However, previous methods fail to reproduce this intuition as in the figure, where similarity should be high close to the diagonal. CKA captures well this property, with linear and nonlinear kernels, hence better determines the relationship between hidden layers in ANNs.
 
-<img src="../images/cka.png">
+<img src="./images/cka.png">
 
 (Optional: How is CKA related to CCA?) We have identified two advantages of CKA over the bag of linear regression methods - read the section again if you don't know what those are, so it may seem that CKA is very different from them. But it's not. Linear CKA is just a weighted CCA.
 
