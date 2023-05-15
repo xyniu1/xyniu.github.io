@@ -24,7 +24,7 @@ Problem setup
 
 Let $\mathbf{X}$ be the responses to a set of images in a source system (e.g., a deep ANN), and $\mathbf{Y}$ be the responses in the target system (e.g., neural responses in macaque IT). $\mathbf{X}$ has size $m\times p$, where $m$ is the number of images, $p$ is the number of artificial neurons; $\mathbf{Y}$ has size $m\times n$, where $n$ is the number of neurons recorded in the experiment. 
 
-<img src="./images/setup.svg">
+<img src="/images/setup.svg">
 
 🧠 While the ANN responses are usually static and deterministic, neural activities embed unique time dynamics and are stochastic, i.e., their responses can be different for the same input. For the first problem, the standard practice is to count the number of spikes during a certain time period after the stimulus onset (for example, [Brain Score][1] chooses 70ms to 170ms after image onset). The second problem is more subtle. For most of the methods we discuss, they average the responses over repeated trials, but some argue the trial variability also plays an important role.
 
@@ -100,7 +100,7 @@ with a hyperparameter $\sigma$.
 
 CKA seems to outperform previous methods on analyzing the similarity of ANNs' response across multiple layers. Intuitively, for a feedforward network, consecutive layers should be more similar to each other than layers far away in the stack, when they are trained with different random initializations. However, previous methods fail to reproduce this intuition as in the figure, where similarity should be high close to the diagonal. CKA captures well this property, with linear and nonlinear kernels, hence better determines the relationship between hidden layers in ANNs.
 
-<img src="./images/cka.png">
+<img src="/images/cka.png" width=500>
 
 (Optional: How is CKA related to CCA?) We have identified two advantages of CKA over the bag of linear regression methods - read the section again if you don't know what those are, so it may seem that CKA is very different from them. But it's not. Linear CKA is just a weighted CCA.
 
