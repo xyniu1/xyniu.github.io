@@ -40,11 +40,11 @@ A bag of linear regression methods
 
 One important ANN-brain similarity benchmark, [Brain Score][1], gives a great example of deploying linear regression methods to this problem. 
 
-> **Linear Regression:** <p> It aims to find $\mathbf{w}_i\in\mathbb{R}^{p}$ for each neuron in the target system that maximizes the correlation between the predicted response
+> **Linear Regression:** It aims to find $\mathbf{w}_i\in\mathbb{R}^{p}$ for each neuron in the target system that maximizes the correlation between the predicted response
 > $$\mathbf{\hat{y}}_i=\mathbf{X}\mathbf{w}_i$$
 > and the real response
 > $$r_i=\text{corr}(\mathbf{y}_i, \mathbf{\hat{y}}_i).$$
-> Then take the median of $r_i$ over all neurons in the target system. </p>
+> Then take the median of $r_i$ over all neurons in the target system.
 
 The reason for taking a median is that neural responses usually follow a non-normal distribution. Direct use of linear regression to compare neural representations is seldom favored because:
 1. It tends to overfit when the number of neurons is close to or even larger than the number of observations, which indeed happens with ANNs;
