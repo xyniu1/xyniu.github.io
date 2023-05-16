@@ -169,9 +169,11 @@ R^2_{\text{CCA}} = \sum_{i=1}^p \sum_{j=1}^n \langle \mathbf{u}_X^i, \mathbf{u}_
 
 On the other hand, linear CKA can be expressed as
 
+<p>
 \begin{aligned}
 \text{CKA}(\mathbf{X X^T}, \mathbf{YY^T}) =\frac{\lVert \mathbf{Y^TX}\rVert_F^2}{\lVert \mathbf{X^TX}\rVert_F\lVert\mathbf{Y^TY}\rVert_F}=\frac{\sum_{i=1}^{p} \sum_{j=1}^{n} {\lambda}_X^i {\lambda}_Y^j \langle\mathbf{u}_X^i, \mathbf{u}_Y^j\rangle^2}{\sqrt{\sum_{i=1}^{p}({\lambda}_X^i)^2} \sqrt{\sum_{j=1}^{n}({\lambda}_Y^j)^2}},
 \end{aligned}
+</p>
 
 where ${\lambda}_X^i$ and ${\lambda}_Y^j$ are the eigenvalues of $\mathbf{XX^T}$ and $\mathbf{YY^T}$, respectively.
 
