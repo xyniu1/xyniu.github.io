@@ -47,7 +47,11 @@ One important ANN-brain similarity benchmark, [Brain Score][1], gives a great ex
 \end{aligned}
 
 and the real response
-$$r_i=\text{corr}(\mathbf{y}_i, \mathbf{\hat{y}}_i).$$
+
+\begin{aligned}
+r_i=\text{corr}(\mathbf{y}_i, \mathbf{\hat{y}}_i).
+\end{aligned}
+
 Then take the median of $r_i$ over all neurons in the target system.
 
 The reason for taking a median is that neural responses usually follow a non-normal distribution. Direct use of linear regression to compare neural representations is seldom favored because:
@@ -58,11 +62,23 @@ The reason for taking a median is that neural responses usually follow a non-nor
 Therefore, Brain Score proposes to do some dimension reduction before carrying out linear regression. They choose PLS, partial least squares regression, which has the following definition:
 
 ✅ **PLS:** Find vectors $\mathbf{a}_i$ and $\mathbf{b}_i$ and take the projections $\mathbf{u}_i=\mathbf{X}\mathbf{a}_i$, $\mathbf{v}_i=\mathbf{Y}\mathbf{b}_i$ to maximize
-$$\rho_i=\text{cov}(\mathbf{u}_i, \mathbf{v}_i) ,$$
+
+\begin{aligned}
+\rho_i=\text{cov}(\mathbf{u}_i, \mathbf{v}_i) ,
+\end{aligned}
+
 subject to 
-$$\|\mathbf{a}_i\|=1, \|\mathbf{b}_i\|=1, $$
+
+\begin{aligned}
+\|\mathbf{a}_i\|=1, \|\mathbf{b}_i\|=1,
+\end{aligned}
+
 and
-$$\mathbf{u}_i \perp \mathbf{u}_j, \mathbf{v}_i \perp \mathbf{v}_j$$
+
+\begin{aligned}
+\mathbf{u}_i \perp \mathbf{u}_j, \mathbf{v}_i \perp \mathbf{v}_j
+\end{aligned}
+
 for $i\neq j$.
 
 Note: Some versions of PLS formulate the problem in a matrix decomposition way, but I find this version more intuitive. 
@@ -88,7 +104,9 @@ The methods so far have focused on comparing neurons (or in a more machine learn
 One can compare this statistics between the source system and the target system, by first vectorize the similarity matrix, take a dot product, and normalize.
 
 ✅ **Dot product-based similarity:** 
-$$s(\mathbf{X}, \mathbf{Y}) = \frac{\langle\text{vec}(\mathbf{X}\mathbf{X^T}), \text{vec}(\mathbf{Y}\mathbf{Y^T})\rangle}{\|\text{vec}(\mathbf{X}\mathbf{X^T})\|\|\text{vec}(\mathbf{Y}\mathbf{Y^T})\|}=\frac{\|\mathbf{X^T}\mathbf{Y}\|_F^2}{\|\mathbf{X^T}\mathbf{X}\|_F\|\mathbf{Y^T}\mathbf{Y}\|_F}, $$
+\begin{aligned}
+s(\mathbf{X}, \mathbf{Y}) = \frac{\langle\text{vec}(\mathbf{X}\mathbf{X^T}), \text{vec}(\mathbf{Y}\mathbf{Y^T})\rangle}{\|\text{vec}(\mathbf{X}\mathbf{X^T})\|\|\text{vec}(\mathbf{Y}\mathbf{Y^T})\|}=\frac{\|\mathbf{X^T}\mathbf{Y}\|_F^2}{\|\mathbf{X^T}\mathbf{X}\|_F\|\mathbf{Y^T}\mathbf{Y}\|_F}, 
+\end{aligned}
 <p>
 where $\|\cdot\|_F$ is the Frobenius norm.
 </p>
@@ -100,12 +118,19 @@ If we write the rows of $\mathbf{X}$ as $\mathbf{x}_i$, then the $(i,j)$ term of
 </p>
 
 ✅ **CKA:**
-$$s(\mathbf{X}, \mathbf{Y})=\frac{\langle\text{vec}(\mathbf{K}), \text{vec}(\mathbf{L})\rangle}{\|\text{vec}(\mathbf{K})\|\|\text{vec}(\mathbf{L})\|}=\frac{\|\mathbf{K^T}\mathbf{L}\|_F}{\sqrt{\|\mathbf{K}\|_F \|\mathbf{L}\|_F}}, $$
+\begin{aligned}
+s(\mathbf{X}, \mathbf{Y})=\frac{\langle\text{vec}(\mathbf{K}), \text{vec}(\mathbf{L})\rangle}{\|\text{vec}(\mathbf{K})\|\|\text{vec}(\mathbf{L})\|}=\frac{\|\mathbf{K^T}\mathbf{L}\|_F}{\sqrt{\|\mathbf{K}\|_F \|\mathbf{L}\|_F}},
+\end{aligned}
 <p>
 where $\|\cdot\|_F$ is the Frobenius norm. 
 </p>
 
-A common nonlinear kernel is the RBF kernel, where $$k(\mathbf{x}_i, \mathbf{x}_j)=\exp (\frac{-\|\mathbf{x}_i-\mathbf{x}_j\|_2^2}{2\sigma^2})$$
+A common nonlinear kernel is the RBF kernel, where 
+
+\begin{aligned}
+k(\mathbf{x}_i, \mathbf{x}_j)=\exp (\frac{-\|\mathbf{x}_i-\mathbf{x}_j\|_2^2}{2\sigma^2})
+\end{aligned}
+
 with a hyperparameter $\sigma$.
 
 CKA seems to outperform previous methods on analyzing the similarity of ANNs' response across multiple layers. Intuitively, for a feedforward network, consecutive layers should be more similar to each other than layers far away in the stack, when they are trained with different random initializations. However, previous methods fail to reproduce this intuition as in the figure, where similarity should be high close to the diagonal. CKA captures well this property, with linear and nonlinear kernels, hence better determines the relationship between hidden layers in ANNs.
