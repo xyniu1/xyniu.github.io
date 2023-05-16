@@ -189,6 +189,10 @@ A huge pitfall of all the methods discussed above is, they do not always obey tr
 
 This is where statistical shape analysis comes in handy, as introduced in [this paper][3] by our very own [Alex Williams][4]. 
 
+This method requires $\mathbf{X}$ and $\mathbf{Y}$ to have the same dimension. Therefore, we need to first find a transformation $\phi$ that makes both of the data matrix have shape $(m, k)$. From now on, we shall assume both $\mathbf{X}$ and $\mathbf{Y}$ act on the same space $\mathbb{R}^{m\times k}$.
+
+To find a proper metric $d$ that allows the comparison of multiple networks at the same time, we first need to define "equality". That is, under what operation $T$, we can have $d(\mathbf{X}, \mathbf{X}T)=0$ for any data matrix $\mathbf{X}$? Previously, we have seen that $T$ can be any invertible linear transformations for the bag of linear regression methods, and $T$ can be any orthogonal matrices for CKA. Orthogonal matrics can induce permutation and rotation, which means, if we randomly permute the order of neurons in a population response, or we randomly rotate the vector of population response, the representation should "be the same", i.e., the distance before and after these transformations should equal to zero. Whether this assumption is desirable varies case by case. For example, it generally makes sense to permute the neurons since they don't have natural orders, but rotating the population response can lead to negative values, which may or may not be acceptable when representing neuron firing rates. One can always use the most strict equality, that is, only allow $T$ to be the identity mapping. 
+
 
 
 
