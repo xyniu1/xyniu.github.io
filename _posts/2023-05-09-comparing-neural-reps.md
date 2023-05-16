@@ -70,7 +70,7 @@ Therefore, Brain Score proposes to do some dimension reduction before carrying o
 subject to 
 
 \begin{aligned}
-\lVert \mathbf{a}_i \rVert=1, \|\mathbf{b}_i\|=1,
+\lVert \mathbf{a}_i \rVert=1, \lVert \mathbf{b}_i \rVert=1,
 \end{aligned}
 
 and
@@ -105,7 +105,7 @@ One can compare this statistics between the source system and the target system,
 
 ✅ **Dot product-based similarity:** 
 \begin{aligned}
-s(\mathbf{X}, \mathbf{Y}) = \frac{\langle\text{vec}(\mathbf{X}\mathbf{X^T}), \text{vec}(\mathbf{Y}\mathbf{Y^T})\rangle}{\|\text{vec}(\mathbf{X}\mathbf{X^T})\|\|\text{vec}(\mathbf{Y}\mathbf{Y^T})\|}=\frac{\|\mathbf{X^T}\mathbf{Y}\|_F^2}{\|\mathbf{X^T}\mathbf{X}\|_F\|\mathbf{Y^T}\mathbf{Y}\|_F}, 
+s(\mathbf{X}, \mathbf{Y}) = \frac{\langle\text{vec}(\mathbf{X}\mathbf{X^T}), \text{vec}(\mathbf{Y}\mathbf{Y^T})\rangle}{\lVert \text{vec}(\mathbf{X}\mathbf{X^T})\rVert \lVert \text{vec}(\mathbf{Y}\mathbf{Y^T}) \rVert}=\frac{\lVert \mathbf{X^T}\mathbf{Y} \rVert_F^2}{\lVert \mathbf{X^T}\mathbf{X}\rVert_F\lVert\mathbf{Y^T}\mathbf{Y}\rVert_F}, 
 \end{aligned}
 <p>
 where $\|\cdot\|_F$ is the Frobenius norm.
@@ -119,7 +119,7 @@ If we write the rows of $\mathbf{X}$ as $\mathbf{x}_i$, then the $(i,j)$ term of
 
 ✅ **CKA:**
 \begin{aligned}
-s(\mathbf{X}, \mathbf{Y})=\frac{\langle\text{vec}(\mathbf{K}), \text{vec}(\mathbf{L})\rangle}{\|\text{vec}(\mathbf{K})\|\|\text{vec}(\mathbf{L})\|}=\frac{\|\mathbf{K^T}\mathbf{L}\|_F}{\sqrt{\|\mathbf{K}\|_F \|\mathbf{L}\|_F}},
+s(\mathbf{X}, \mathbf{Y})=\frac{\langle\text{vec}(\mathbf{K}), \text{vec}(\mathbf{L})\rangle}{\lVert\text{vec}(\mathbf{K})\rVert\lVert\text{vec}(\mathbf{L})\rVert}=\frac{\lVert\mathbf{K^T}\mathbf{L}\rVert_F}{\sqrt{\lVert\mathbf{K}\rVert_F \lVert\mathbf{L}\rVert_F}},
 \end{aligned}
 <p>
 where $\|\cdot\|_F$ is the Frobenius norm. 
@@ -128,7 +128,7 @@ where $\|\cdot\|_F$ is the Frobenius norm.
 A common nonlinear kernel is the RBF kernel, where 
 
 \begin{aligned}
-k(\mathbf{x}_i, \mathbf{x}_j)=\exp (\frac{-\|\mathbf{x}_i-\mathbf{x}_j\|_2^2}{2\sigma^2})
+k(\mathbf{x}_i, \mathbf{x}_j)=\exp (\frac{-\lVert\mathbf{x}_i-\mathbf{x}_j\rVert_2^2}{2\sigma^2})
 \end{aligned}
 
 with a hyperparameter $\sigma$.
@@ -137,7 +137,7 @@ CKA seems to outperform previous methods on analyzing the similarity of ANNs' re
 
 <img src="/images/cka.png" width=500>
 
-(Optional: How is CKA related to CCA?) We have identified two advantages of CKA over the bag of linear regression methods - read the section again if you don't know what those are. Therefore, it may seem that CKA is very different from them. But it's not. Linear CKA is just a weighted CCA.
+(Optional: How is CKA related to CCA?) We have identified two advantages of CKA over the bag of linear regression methods - read the section again if you don't know what those are. Therefore, it may seem that CKA is very different from them. But it's not. Linear CKA is just a weighted CCA under mild assumptions.
 
 
 
