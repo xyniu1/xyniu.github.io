@@ -137,7 +137,22 @@ CKA seems to outperform previous methods on analyzing the similarity of ANNs' re
 
 <img src="/images/cka.png" width=500>
 
-(Optional: How is CKA related to CCA?) We have identified two advantages of CKA over the bag of linear regression methods - read the section again if you don't know what those are. Therefore, it may seem that CKA is very different from them. But it's not. Linear CKA is just a weighted CCA under mild assumptions.
+(Optional: How is CKA related to CCA?) We have identified two advantages of CKA over the bag of linear regression methods - read the section again if you don't know what those are. Therefore, it may seem that CKA is very different from them. But it's not. Linear CKA is just a weighted CCA under mild assumptions. 
+
+To see that, let's first look at the optimal solution of CCA. If $\mathbf{X}\in\mathbb{R}^{m \times p}$ has full rank $p$, $\mathbf{Y}\in\mathbb{R}^{m \times n}$ has full rank $n$, then 
+✅ **Optimal solution of CCA:**
+\begin{aligned}
+R^2_{\text{CCA}} = \frac{\sum \text{eigenvalues of } (\mathbf{X^TX})^{-1/2}(\mathbf{X^TY})(\mathbf{Y^TY})^{-1}(\mathbf{Y^TX})(\mathbf{X^TX})^{-1/2}}{p}.
+\end{aligned}
+Since the sum of eigenvalues equal to trace, and this big matrix is a matrix square, this measure can be rewritten as 
+\begin{aligned}
+R^2_{\text{CCA}} = \lVert (\mathbf{Y^TY})^{-1/2}(\mathbf{Y^TX})(\mathbf{X^TX})^{-1/2} \rVert_F^2.
+\end{aligned}
+Take the singular decomposition of $\mathbf{X}$ and $\mathbf{Y}$ as $\mathbf{X}=\mathbf{U}_X\mathbf{\Sigma}_X\mathbf{V}_X$ and $\mathbf{Y}=\mathbf{U}_Y\mathbf{\Sigma}_Y\mathbf{V}_Y$, we have
+\begin{aligned}
+R^2_{\text{CCA}} = \lVert \mathbf{V}_Y^T\mathbf{U}_Y^T\mathbf{U}_X\mathbf{V}_X \rVert = \lVert \mathbf{U}_Y^T\mathbf{U}_X \rVert,
+\end{aligned}
+since $\mathbf{V}_X$ and $\mathbf{V}_Y$ are orthogonal matrices that preserve norm.
 
 
 
