@@ -8,8 +8,8 @@ tags:
 ---
 Artificial neural networks have countless forms - they have different architectures, they are trained with different objective functions, they use different parameters and hyperparameters, and with all those fixed, random initializations can lead to drastically distinct results. Although deep networks have made remarkable empirical progress, not much success has been made in understanding and characterizing their representations. One such metric is, how much are they like the brain?
 
-The blog post reviews several notable methods in the literature that characterize the similarity between ANN representations and the brain on different levels: on the level of population response, and on the level of "behavior" - either performance on downstream tasks, or perceptual implications. Some content is emoji-coded  🟦 🧠 ⚪. For each of the method, I will -
-1. Translate it from words to mathematical definitions (for me, it is the clearest way to show the method);
+The blog post reviews several notable methods in the literature that characterize the similarity between ANN representations and the brain on different levels: on the level of population response, and on the level of "behavior" - either performance on downstream tasks, or perceptual implications. Some content is emoji-coded ✅ 🟦 🧠 ⚪. For each of the method, I will -
+1. Translate it from words to mathematical definitions ✅ (for me, it is the clearest way to show the method);
 2. Analyze the mathematical form and see what this method tries to achieve. One confusing point for me is when and how to mean-centered or normalize the data ⚪;
 3. Provide intuition on their pros and cons when applied to large-scale ANN representations 🟦, or noisy neural responses 🧠;
 
@@ -40,11 +40,11 @@ A bag of linear regression methods
 
 One important ANN-brain similarity benchmark, [Brain Score][1], gives a great example of deploying linear regression methods to this problem. 
 
-> **Linear Regression:** It aims to find $\mathbf{w}_i\in\mathbb{R}^{p}$ for each neuron in the target system that maximizes the correlation between the predicted response
-> $$\mathbf{\hat{y}}_i=\mathbf{X}\mathbf{w}_i$$
-> and the real response
-> $$r_i=\text{corr}(\mathbf{y}_i, \mathbf{\hat{y}}_i).$$
-> Then take the median of $r_i$ over all neurons in the target system.
+✅ **Linear Regression:** <p> It aims to find $\mathbf{w}_i\in\mathbb{R}^{p}$ for each neuron in the target system that maximizes the correlation between the predicted response
+$$\mathbf{\hat{y}}_i=\mathbf{X}\mathbf{w}_i$$
+and the real response
+$$r_i=\text{corr}(\mathbf{y}_i, \mathbf{\hat{y}}_i).$$
+Then take the median of $r_i$ over all neurons in the target system. </p>
 
 The reason for taking a median is that neural responses usually follow a non-normal distribution. Direct use of linear regression to compare neural representations is seldom favored because:
 1. It tends to overfit when the number of neurons is close to or even larger than the number of observations, which indeed happens with ANNs;
@@ -89,7 +89,7 @@ One can compare this statistics between the source system and the target system,
 
 Let's look at this metric more closely. First, it is invariant to isotropic scaling due to the normalizing denominator, which means $s(\mathbf{X}, \mathbf{Y})=s(\alpha\mathbf{X}, \beta\mathbf{Y})$. Note that it is not invariant to scaling of the whole matrix, not of individual rows or columns of $\mathbf{X}$, which has the flavor of PLS compared to CCA. Second, it is not invariant to any invertible linear transformations, but only to orthogonal matrices $\mathbf{M}$ with $\mathbf{M}\mathbf{M^T}=\mathbf{I}$. It is a more stringent invariance and thus is preferable in the pathological case where the number of neurons is close to the number of images.
 
-If we write the rows of $\mathbf{X}$ as $\mathbf{x}_{i}$, then the $(i,j)$ term of $\mathbf{X^T}\mathbf{X}$ can be written as $(\mathbf{X^T}\mathbf{X})_{i,j}=\langle\mathbf{x}_i, \mathbf{x}_j\rangle$, which is a linear kernel. In fact, we can use other kernels to express the similarity matrix. Let $\mathbf{K}_{ij}=k(\mathbf{x}_i, \mathbf{x}_j)$ and $\mathbf{L}_{ij}=l(\mathbf{y}_i, \mathbf{y}_j)$ where $k$ and $l$ are two kernels, ⚪ then if we further make $\mathbf{K}$ and $\mathbf{L}$ column-centered (since they are symmetric matrices, column-centered would mean row-centered), then we can rewrite the similarity metric as 
+If we write the rows of $\mathbf{X}$ as $\mathbf{x}_i$, then the $(i,j)$ term of $\mathbf{X^T}\mathbf{X}$ can be written as $(\mathbf{X^T}\mathbf{X})_{i,j}=\langle\mathbf{x}_i, \mathbf{x}_j\rangle$, which is a linear kernel. In fact, we can use other kernels to express the similarity matrix. Let $\mathbf{K}_{ij}=k(\mathbf{x}_i, \mathbf{x}_j)$ and $\mathbf{L}_{ij}=l(\mathbf{y}_i, \mathbf{y}_j)$ where $k$ and $l$ are two kernels, ⚪ then if we further make $\mathbf{K}$ and $\mathbf{L}$ column-centered (since they are symmetric matrices, column-centered would mean row-centered), then we can rewrite the similarity metric as 
 
 > **CKA:**
 > $$s(\mathbf{X}, \mathbf{Y})=\frac{\langle\text{vec}(\mathbf{K}), \text{vec}(\mathbf{L})\rangle}{\|\text{vec}(\mathbf{K})\|\|\text{vec}(\mathbf{L})\|}=\frac{\|\mathbf{K^T}\mathbf{L}\|_F}{\sqrt{\|\mathbf{K}\|_F \|\mathbf{L}\|_F}}, $$
