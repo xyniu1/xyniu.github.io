@@ -53,7 +53,7 @@ The reason for taking a median is that neural responses usually follow a non-nor
 
 Therefore, Brain Score proposes to do some dimension reduction before carrying out linear regression. They choose PLS, partial least squares regression, which has the following definition:
 
-> **PLS:** Find vectors $\mathbf{a}_i$ and $\mathbf{b}_i$ and take the projections $\mathbf{u}_i=\mathbf{X}\mathbf{a}_i$, $\mathbf{v}_i=\mathbf{Y}\mathbf{b}_i$ to maximize
+✅ **PLS:** Find vectors $\mathbf{a}_i$ and $\mathbf{b}_i$ and take the projections $\mathbf{u}_i=\mathbf{X}\mathbf{a}_i$, $\mathbf{v}_i=\mathbf{Y}\mathbf{b}_i$ to maximize
 $$\rho_i=\text{cov}(\mathbf{u}_i, \mathbf{v}_i) ,$$
 subject to 
 $$\|\mathbf{a}_i\|=1, \|\mathbf{b}_i\|=1, $$
@@ -83,19 +83,17 @@ The methods so far have focused on comparing neurons (or in a more machine learn
 
 One can compare this statistics between the source system and the target system, by first vectorize the similarity matrix, take a dot product, and normalize.
 
-> **Dot product-based similarity:** 
-> $$s(\mathbf{{X}}, \mathbf{Y}) = \frac{\langle\text{vec}(\mathbf{X}\mathbf{X^T}), \text{vec}(\mathbf{Y}\mathbf{Y^T})\rangle}{\|\text{vec}(\mathbf{X}\mathbf{X^T})\|\|\text{vec}(\mathbf{Y}\mathbf{Y^T})\|}=\frac{\|\mathbf{X^T}\mathbf{Y}\|_F^2}{\|\mathbf{X^T}\mathbf{X}\|_F\|\mathbf{Y^T}\mathbf{Y}\|_F}, $$
-> where $\|\cdot\|_F$ is the Frobenius norm.
+✅ **Dot product-based similarity:** 
+$$s(\mathbf{X}, \mathbf{Y}) = \frac{\langle\text{vec}(\mathbf{X}\mathbf{X^T}), \text{vec}(\mathbf{Y}\mathbf{Y^T})\rangle}{\|\text{vec}(\mathbf{X}\mathbf{X^T})\|\|\text{vec}(\mathbf{Y}\mathbf{Y^T})\|}=\frac{\|\mathbf{X^T}\mathbf{Y}\|_F^2}{\|\mathbf{X^T}\mathbf{X}\|_F\|\mathbf{Y^T}\mathbf{Y}\|_F}, $$
+<p>
+where $\|\cdot\|_F$ is the Frobenius norm.
+</p>
 
 Let's look at this metric more closely. First, it is invariant to isotropic scaling due to the normalizing denominator, which means $s(\mathbf{X}, \mathbf{Y})=s(\alpha\mathbf{X}, \beta\mathbf{Y})$. Note that it is not invariant to scaling of the whole matrix, not of individual rows or columns of $\mathbf{X}$, which has the flavor of PLS compared to CCA. Second, it is not invariant to any invertible linear transformations, but only to orthogonal matrices $\mathbf{M}$ with $\mathbf{M}\mathbf{M^T}=\mathbf{I}$. It is a more stringent invariance and thus is preferable in the pathological case where the number of neurons is close to the number of images.
 
-<<<<<<< HEAD
-If we write the rows of $\mathbf{X}$ as $\mathbf{x}_i$, then the $(i,j)$ term of $\mathbf{X^T}\mathbf{X}$ can be written as $(\mathbf{X^T}\mathbf{X})_{i,j}=\langle\mathbf{x}_i, \mathbf{x}_j\rangle$, which is a linear kernel. In fact, we can use other kernels to express the similarity matrix. Let $\mathbf{K}_{ij}=k(\mathbf{x}_i, \mathbf{x}_j)$ and $\mathbf{L}_{ij}=l(\mathbf{y}_i, \mathbf{y}_j)$ where $k$ and $l$ are two kernels, ⚪ then if we further make $\mathbf{K}$ and $\mathbf{L}$ column-centered (since they are symmetric matrices, column-centered would mean row-centered), then we can rewrite the similarity metric as 
-=======
 <p>
 If we write the rows of $\mathbf{X}$ as $\mathbf{x}_i$, then the $(i,j)$ term of $\mathbf{X^T}\mathbf{X}$ can be written as $(\mathbf{X^T}\mathbf{X})_{i,j}=\langle\mathbf{x}_i, \mathbf{x}_j\rangle$, which is a linear kernel. In fact, we can use other kernels to express the similarity matrix. Let $\mathbf{K}_{ij}=k(\mathbf{x}_i, \mathbf{x}_j)$ and $\mathbf{L}_{ij}=l(\mathbf{y}_i, \mathbf{y}_j)$ where $k$ and $l$ are two kernels, ⚪ then if we further make $\mathbf{K}$ and $\mathbf{L}$ column-centered (since they are symmetric matrices, column-centered would mean row-centered), then we can rewrite the similarity metric as
 </p>
->>>>>>> 64a16c6401144399e632fdcfaa1ba9f71b3e9273
 
 > **CKA:**
 > $$s(\mathbf{X}, \mathbf{Y})=\frac{\langle\text{vec}(\mathbf{K}), \text{vec}(\mathbf{L})\rangle}{\|\text{vec}(\mathbf{K})\|\|\text{vec}(\mathbf{L})\|}=\frac{\|\mathbf{K^T}\mathbf{L}\|_F}{\sqrt{\|\mathbf{K}\|_F \|\mathbf{L}\|_F}}, $$
