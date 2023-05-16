@@ -41,7 +41,11 @@ A bag of linear regression methods
 One important ANN-brain similarity benchmark, [Brain Score][1], gives a great example of deploying linear regression methods to this problem. 
 
 ✅ **Linear Regression:** It aims to find $\mathbf{w}_i\in\mathbb{R}^{p}$ for each neuron in the target system that maximizes the correlation between the predicted response
-$$\mathbf{\hat{y}}_i=\mathbf{X}\mathbf{w}_i$$
+$$
+\begin{aligned}
+\mathbf{\hat{y}}_i=\mathbf{X}\mathbf{w}_i
+\end{aligned}
+$$
 and the real response
 $$r_i=\text{corr}(\mathbf{y}_i, \mathbf{\hat{y}}_i).$$
 Then take the median of $r_i$ over all neurons in the target system.
@@ -95,9 +99,11 @@ Let's look at this metric more closely. First, it is invariant to isotropic scal
 If we write the rows of $\mathbf{X}$ as $\mathbf{x}_i$, then the $(i,j)$ term of $\mathbf{X^T}\mathbf{X}$ can be written as $(\mathbf{X^T}\mathbf{X})_{i,j}=\langle\mathbf{x}_i, \mathbf{x}_j\rangle$, which is a linear kernel. In fact, we can use other kernels to express the similarity matrix. Let $\mathbf{K}_{ij}=k(\mathbf{x}_i, \mathbf{x}_j)$ and $\mathbf{L}_{ij}=l(\mathbf{y}_i, \mathbf{y}_j)$ where $k$ and $l$ are two kernels, ⚪ then if we further make $\mathbf{K}$ and $\mathbf{L}$ column-centered (since they are symmetric matrices, column-centered would mean row-centered), then we can rewrite the similarity metric as
 </p>
 
-> **CKA:**
-> $$s(\mathbf{X}, \mathbf{Y})=\frac{\langle\text{vec}(\mathbf{K}), \text{vec}(\mathbf{L})\rangle}{\|\text{vec}(\mathbf{K})\|\|\text{vec}(\mathbf{L})\|}=\frac{\|\mathbf{K^T}\mathbf{L}\|_F}{\sqrt{\|\mathbf{K}\|_F \|\mathbf{L}\|_F}}, $$
-> where $\|\cdot\|_F$ is the Frobenius norm. 
+✅ **CKA:**
+$$s(\mathbf{X}, \mathbf{Y})=\frac{\langle\text{vec}(\mathbf{K}), \text{vec}(\mathbf{L})\rangle}{\|\text{vec}(\mathbf{K})\|\|\text{vec}(\mathbf{L})\|}=\frac{\|\mathbf{K^T}\mathbf{L}\|_F}{\sqrt{\|\mathbf{K}\|_F \|\mathbf{L}\|_F}}, $$
+<p>
+where $\|\cdot\|_F$ is the Frobenius norm. 
+</p>
 
 A common nonlinear kernel is the RBF kernel, where $$k(\mathbf{x}_i, \mathbf{x}_j)=\exp (\frac{-\|\mathbf{x}_i-\mathbf{x}_j\|_2^2}{2\sigma^2})$$
 with a hyperparameter $\sigma$.
@@ -106,7 +112,7 @@ CKA seems to outperform previous methods on analyzing the similarity of ANNs' re
 
 <img src="/images/cka.png" width=500>
 
-(Optional: How is CKA related to CCA?) We have identified two advantages of CKA over the bag of linear regression methods - read the section again if you don't know what those are, so it may seem that CKA is very different from them. But it's not. Linear CKA is just a weighted CCA.
+(Optional: How is CKA related to CCA?) We have identified two advantages of CKA over the bag of linear regression methods - read the section again if you don't know what those are. Therefore, it may seem that CKA is very different from them. But it's not. Linear CKA is just a weighted CCA.
 
 
 
