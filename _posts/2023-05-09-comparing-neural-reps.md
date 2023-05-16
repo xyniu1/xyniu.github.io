@@ -161,9 +161,11 @@ R^2_{\text{CCA}} = \lVert \mathbf{V}_Y^T\mathbf{U}_Y^T\mathbf{U}_X\mathbf{V}_X \
 
 since $\mathbf{V}_X$ and $\mathbf{V}_Y$ are orthogonal matrices that preserve norm. Finally, write the $i^{\text{th}}$ eigenvector of $\mathbf{XX^T}$ as $\mathbf{u}_X^i$, we have
 
+<p>
 \begin{aligned}
 R^2_{\text{CCA}} = \sum_{i=1}^p \sum_{j=1}^n \langle \mathbf{u}_X^i, \mathbf{u}_Y^j\rangle^2 / p.
 \end{aligned}
+</p>
 
 On the other hand, linear CKA can be expressed as
 
