@@ -139,7 +139,7 @@ CKA seems to outperform previous methods on analyzing the similarity of ANNs' re
 
 (Optional: How is CKA related to CCA?) We have identified two advantages of CKA over the bag of linear regression methods - read the section again if you don't know what those are. Therefore, it may seem that CKA is very different from them. But it's not. Linear CKA is just a weighted CCA under mild assumptions. 
 
-To see that, let's first look at the optimal solution of CCA. If $\mathbf{X}\in\mathbb{R}^{m \times p}$ has full rank $p$, $\mathbf{Y}\in\mathbb{R}^{m \times n}$ has full rank $n$, then 
+To see that, let's first look at the optimal solution of CCA. If $\mathbf{X}\in\mathbb{R}^{m \times p}$ has full rank $p$, $\mathbf{Y}\in\mathbb{R}^{m \times n}$ has full rank $n$, ⚪ and they are column-centered,
 
 ✅ **Optimal solution of CCA:**
 
@@ -173,14 +173,9 @@ On the other hand, linear CKA can be expressed as
 
 where ${\lambda}_X^i$ and ${\lambda}_Y^j$ are the eigenvalues of $\mathbf{XX^T}$ and $\mathbf{YY^T}$, respectively.
 
+Both of the solutions are weighted sums of the inner product between the left singular vectors of $\mathbf{X}$ and $\mathbf{Y}$. Compared to CCA that puts equal weight on the inner products, CKA puts more weight on directions that explain more variance of $\mathbf{X}$ and $\mathbf{Y}$, on the idea that eigenvectors corrsponding to smaller eigenvalues are less important. It has the flavor of PCR that reduces dimensionality in an unsupervised way.
 
-
-
-
-
-
-
-
+Although our derivation imposes requirement on the rank of $\mathbf{X}$ and $\mathbf{Y}$, CKA does not have those requirement in practice. It can be computed without any matrix decompositions, and are shown to be effective when the number of neurons exceeds the number of images.
 
 
 
