@@ -153,14 +153,25 @@ Since the sum of eigenvalues equal to trace, and this big matrix is a matrix squ
 R^2_{\text{CCA}} = \lVert (\mathbf{Y^TY})^{-1/2}(\mathbf{Y^TX})(\mathbf{X^TX})^{-1/2} \rVert_F^2.
 \end{aligned}
 
-Take the singular decomposition of $\mathbf{X}$ and $\mathbf{Y}$ as $\mathbf{X}=\mathbf{U}_X\mathbf{\Sigma}_X\mathbf{V}_X$ and $\mathbf{Y}=\mathbf{U}_Y\mathbf{\Sigma}_Y\mathbf{V}_Y$, we have
+Take singular decomposition $\mathbf{X}=\mathbf{U}_X\mathbf{\Sigma}_X\mathbf{V}_X$ and $\mathbf{Y}=\mathbf{U}_Y\mathbf{\Sigma}_Y\mathbf{V}_Y$, we have
 
 \begin{aligned}
-R^2_{\text{CCA}} = \lVert \mathbf{V}_Y^T\mathbf{U}_Y^T\mathbf{U}_X\mathbf{V}_X \rVert = \lVert \mathbf{U}_Y^T\mathbf{U}_X \rVert,
+R^2_{\text{CCA}} = \lVert \mathbf{V}_Y^T\mathbf{U}_Y^T\mathbf{U}_X\mathbf{V}_X \rVert_F^2 = \lVert \mathbf{U}_Y^T\mathbf{U}_X \rVert_F^2,
 \end{aligned}
 
-since $\mathbf{V}_X$ and $\mathbf{V}_Y$ are orthogonal matrices that preserve norm.
+since $\mathbf{V}_X$ and $\mathbf{V}_Y$ are orthogonal matrices that preserve norm. Finally, write the $i$^{\text{th}}$ eigenvector of $\mathbf{XX^T}$ as $\mathbf{u}_X^i$, we have
 
+\begin{aligned}
+R^2_{\text{CCA}} = \sum_{i=1}^p \sum_{j=1}^n \langle \mathbf{u}_X^i, \mathbf{u}_Y^j\rangle^2 / p.
+\end{aligned}
+
+On the other hand, linear CKA can be expressed as
+
+\begin{aligned}
+\text{CKA}(\mathbf{X X^T}, \mathbf{YY^T}) =\frac{\lVert \mathbf{Y^TX}\rVert_F^2}{\lVert \mathbf{X^TX}\rVert_F\lVert\mathbf{Y^TY}\rVert_F}=\frac{\sum_{i=1}^{p} \sum_{j=1}^{n} {\lambda}_X^i {\lambda}_Y^j \langle\mathbf{u}_X^i, \mathbf{u}_Y^j\rangle^2}{\sqrt{\sum_{i=1}^{p}({\lambda}_X^i)^2} \sqrt{\sum_{j=1}^{n}({\lambda}_Y^j)^2}},
+\end{aligned}
+
+where ${\lambda}_X^i$ and ${\lambda}_Y^j$ are the eigenvalues of $\mathbf{XX^T}$ and $\mathbf{YY^T}$, respectively.
 
 
 
