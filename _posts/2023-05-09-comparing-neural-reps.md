@@ -70,7 +70,7 @@ Therefore, Brain Score proposes to do some dimension reduction before carrying o
 subject to 
 
 \begin{aligned}
-\norm \mathbf{a}_i \norm=1, \|\mathbf{b}_i\|=1,
+\lVert \mathbf{a}_i \rVert=1, \|\mathbf{b}_i\|=1,
 \end{aligned}
 
 and
