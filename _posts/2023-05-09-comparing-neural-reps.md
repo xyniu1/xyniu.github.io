@@ -41,11 +41,11 @@ A bag of linear regression methods
 One important ANN-brain similarity benchmark, [Brain Score][1], gives a great example of deploying linear regression methods to this problem. 
 
 ✅ **Linear Regression:** It aims to find $\mathbf{w}_i\in\mathbb{R}^{p}$ for each neuron in the target system that maximizes the correlation between the predicted response
-\[
+
 \begin{aligned}
 \mathbf{\hat{y}}_i=\mathbf{X}\mathbf{w}_i
 \end{aligned}
-\]
+
 and the real response
 $$r_i=\text{corr}(\mathbf{y}_i, \mathbf{\hat{y}}_i).$$
 Then take the median of $r_i$ over all neurons in the target system.
