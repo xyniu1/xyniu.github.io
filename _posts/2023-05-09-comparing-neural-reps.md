@@ -189,9 +189,32 @@ A huge pitfall of all the methods discussed above is, they do not always obey tr
 
 This is where statistical shape analysis comes in handy, as introduced in [this paper][3] by our very own [Alex Williams][4]. 
 
-This method requires $\mathbf{X}$ and $\mathbf{Y}$ to have the same dimension. Therefore, we need to first find a transformation $\phi$ that makes both of the data matrix have shape $(m, k)$. From now on, we shall assume both $\mathbf{X}$ and $\mathbf{Y}$ act on the same space $\mathbb{R}^{m\times k}$.
+This method requires $\mathbf{X}$ and $\mathbf{Y}$ to have the same dimension. Therefore, we need to first find a transformation $\phi$ that makes both of the response matrix have shape $(m, k)$. From now on, we shall assume both $\mathbf{X}$ and $\mathbf{Y}$ act on the same space $\mathbb{R}^{m\times k}$.
 
-To find a proper metric $d$ that allows the comparison of multiple networks at the same time, we first need to define "equality". That is, under what operation $T$, we can have $d(\mathbf{X}, \mathbf{X}T)=0$ for any data matrix $\mathbf{X}$? Previously, we have seen that $T$ can be any invertible linear transformations for the bag of linear regression methods, and $T$ can be any orthogonal matrices for CKA. Orthogonal matrics can induce permutation and rotation, which means, if we randomly permute the order of neurons in a population response, or we randomly rotate the vector of population response, the representation should "be the same", i.e., the distance before and after these transformations should equal to zero. Whether this assumption is desirable varies case by case. For example, it generally makes sense to permute the neurons since they don't have natural orders, but rotating the population response can lead to negative values, which may or may not be acceptable when representing neuron firing rates. One can always use the most strict equality, that is, only allow $T$ to be the identity mapping. 
+To find a proper metric $d$ that allows the comparison of multiple networks at the same time, we first need to define "equality". That is, under what operation $T$, we can have $d(\mathbf{X}, \mathbf{X}T)=0$ for any response matrix $\mathbf{X}$, or intuitively, we consider $\mathbf{X}$ and $\mathbf{X}T$ "the same"? We have seen that in the bag of linear regression methods, any invertible linear transformations $T$ applied on $\mathbf{X}$ will give the same similarity score. In CKA, the similarity metric is invariant to othorgonal matrices. Here, we impose a more strict condition on $T$ and restrict it to be a linear isometry, that is, $T$ is a linear transformaion that preserves length. On $\mathbb{R}^{m \times k}$ and $\mathbb{S}^{m \times k}$, linear isometries are necessarily othorgonal, therefore, $T$ belongs to a subgroup of the set of othorgonal transformations $\mathcal{O}(p)=\left\{\boldsymbol{Q} \in \mathbb{R}^{k \times k}: \boldsymbol{Q}^{\top} \boldsymbol{Q}=\boldsymbol{I}\right\}$.
+
+These descriptions give a feasible range of $T$ to be chosen from, but that is still a large range. We can choose $T$ to be the set of permutation matrices, that is, if we randomly permute the order of neurons in a population response, we will consider the representation to be identical. This generally makes sense because neurons don't have natural orders. We can alternatively choose $T$ to be the set of rotation matrices, that is, if we randomly rotate the vector of population response, the representation should be unchanged. Rotating the population response can lead to negative values, hence this choice may or may not be acceptable when representing neuron firing rates. Finally, one can always use the most strict equality and only allow $T$ to be the identity mapping.
+
+Once we find an ideal $T$, Alex showed the following two expressions are proper metrics, i.e. they obey triangular inequality.
+
+✅ **Generalized shape metrics**
+If we let $\mathcal{G}$ be the group of $T$ that we choose, then
+<p>
+\begin{aligned}
+d(\mathbf{X}, \mathbf{Y})=\min_{T\in\mathcal{G}}\lVert \mathbf{X}-\mathbf{Y}T\rVert
+\end{aligned}
+
+or
+
+\begin{aligned}
+d(\mathbf{X}, \mathbf{Y})=\min_{T\in\mathcal{G}} \arccos \langle \mathbf{X}, \mathbf{Y}T \rangle
+\end{aligned}
+</p>
+
+defines a proper metric, and can be used to evaluate the dissimilarity of multiple representations at the same time.
+
+
+
 
 
 
