@@ -159,7 +159,7 @@ Take singular decomposition $\mathbf{X}=\mathbf{U}_X\mathbf{\Sigma}_X\mathbf{V}_
 R^2_{\text{CCA}} = \lVert \mathbf{V}_Y^T\mathbf{U}_Y^T\mathbf{U}_X\mathbf{V}_X \rVert_F^2 = \lVert \mathbf{U}_Y^T\mathbf{U}_X \rVert_F^2,
 \end{aligned}
 
-since $\mathbf{V}_X$ and $\mathbf{V}_Y$ are orthogonal matrices that preserve norm. Finally, write the $i$^{\text{th}}$ eigenvector of $\mathbf{XX^T}$ as $\mathbf{u}_X^i$, we have
+since $\mathbf{V}_X$ and $\mathbf{V}_Y$ are orthogonal matrices that preserve norm. Finally, write the $i^{\text{th}}$ eigenvector of $\mathbf{XX^T}$ as $\mathbf{u}_X^i$, we have
 
 \begin{aligned}
 R^2_{\text{CCA}} = \sum_{i=1}^p \sum_{j=1}^n \langle \mathbf{u}_X^i, \mathbf{u}_Y^j\rangle^2 / p.
