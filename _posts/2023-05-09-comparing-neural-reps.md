@@ -215,19 +215,19 @@ defines a proper metric, and can be used to evaluate the dissimilarity of multip
 
 Immediately we notice that these two forms look very different from the similarity scores we saw before. Previously, the score $r^2$ is mostly defined on covariance matrices, which is a squared form of $\mathbf{X}$, but now the dissimilarity $d$ is directly defined on $\mathbf{X}$ up to transformation $T$. Also, the second definition gives an angular distance instead of a linear one, which ranges from $0$ to $\pi$.
 
-Meanwhile, the flexibility in defining $\phi$ and $T$ gives a wide range of possibilities of the specific form of $d$. If chosen properly, certain $d$ can have a similar form with the previous methods. Alex showed one example in the paper that if we consider a partial whitening transformation for $\phi$,
+Meanwhile, the flexibility in choosing $\phi$ and $T$ gives a wide range of possibilities of the specific form of $d$. If chosen properly, certain $d$ can have a similar form with the previous methods. Alex showed one example in his paper that if we consider a partial whitening transformation for $\phi$,
 
 \begin{aligned}
 \mathbf{X}^{\phi}=\mathbf{C} \mathbf{X}(\alpha \mathbf{I}+(1-\alpha)(\mathbf{X}^T \mathbf{C} \mathbf{X})^{-1 / 2}),
 \end{aligned}
 
-where $\mathbf{C}=\mathbf{I}-(1/m)\mathbf{1}\mathbf{1}^T$ is a centering matrix; and choose $T\in\mathcal{G}$ to be the group of rotation matrices, the metric
+where $\mathbf{C}=\mathbf{I}-(1/m)\mathbf{1}\mathbf{1}^T$ is a centering matrix; and choose $T\in\mathcal{G}$ to be the group of rotation matrices, the metric can be rewritten as 
 
 \begin{aligned}
-d(\mathbf{X}, \mathbf{Y})=\min_{T \in \mathcal{G}} \arccos \frac{\langle\mathbf{X}^{\phi}, \mathbf{Y}^{\phi} T\rangle}{\lVert\mathbf{X}^{\phi}\rVert \lVert\mathbf{Y}^{\phi}\rVert}=\arccos \sum_l \rho_l,
+d(\mathbf{X}, \mathbf{Y})=\min_{T \in \mathcal{G}} \arccos \frac{\langle\mathbf{X}^{\phi}, \mathbf{Y}^{\phi} T\rangle}{\lVert\mathbf{X}^{\phi}\rVert \lVert\mathbf{Y}^{\phi}\rVert}=\arccos (\sum_l \rho_l),
 \end{aligned}
 
-where ${\rho}_l$ is the singular values of $(\mathbf{X}^\phi)^T(\mathbf{Y}^\phi)/\lVert\mathbf{X}^{\phi}\rVert \lVert\mathbf{Y}^{\phi}\rVert$. While in CCA, $\sum_l \rho_l$ is usually used as the similarity score (this can be derived from the previous section: optimal solution of CCA).
+where ${\rho}_l$ is the singular values of $(\mathbf{X}^\phi)^T(\mathbf{Y}^\phi)/\lVert\mathbf{X}^{\phi}\rVert \lVert\mathbf{Y}^{\phi}\rVert$. While in CCA, $\sum_l \rho_l$ is usually used as the similarity score (this can be derived from the previous section: optimal solution of CCA). The two similarity indices differ by an $\arccos (\cdot)$ operator, but the first one is a proper metric while the second one is not.
 
 The most significant advantage of the shape metric is that it enables the comparison of more than two networks at the same time. If we have the pairwise distance of multiple networks, we can use multidimensional scaling (MDS) to embed each network into a vector of length $L$. MDS find those vectors by trying to preserve all these pairwise distances given by all possible pairs of the networks. In the figure below, each point is the response matrix $\mathbf{X}$ in a specific brain area embedding by MDS then visualized in the 2D PC space, where similar colors mean the same anatomical region. It is clear that anatomically related regions indeed have similar responses under the shape metric.
 
