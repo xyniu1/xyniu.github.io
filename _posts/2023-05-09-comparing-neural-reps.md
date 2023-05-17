@@ -114,7 +114,7 @@ where $\|\cdot\|_F$ is the Frobenius norm.
 Let's look at this similarity score more closely. First, it is invariant to isotropic scaling due to the normalizing denominator, which means $s(\mathbf{X}, \mathbf{Y})=s(\alpha\mathbf{X}, \beta\mathbf{Y})$. Note that it is invariant to scaling of the whole matrix, not of individual rows or columns of $\mathbf{X}$. Second, it is not invariant to all invertible linear transformations, but only to orthogonal matrices $\mathbf{M}$ with $\mathbf{M}\mathbf{M^T}=\mathbf{I}$. It is a more stringent invariance and thus is preferable in the pathological case where the number of neurons is close to the number of images.
 
 <p>
-If we write the rows of $\mathbf{X}$ as $\mathbf{x}_i$, then the $(i,j)$ term of $\mathbf{X}^T\mathbf{X}$ can be written as $(\mathbf{X}^T\mathbf{X})_{i,j}=\langle\mathbf{x}_i, \mathbf{x}_j\rangle$, which is a linear kernel. In fact, we can use other kernels to rewrite the similarity matrix. Let $\mathbf{K}_{ij}=k(\mathbf{x}_i, \mathbf{x}_j)$ and $\mathbf{L}_{ij}=l(\mathbf{y}_i, \mathbf{y}_j)$ where $k$ and $l$ are two kernels, ⚪ then if we further make $\mathbf{K}$ and $\mathbf{L}$ column-centered (since they are symmetric matrices, column-centered would mean row-centered), then we can rewrite the similarity metric as
+If we write the rows of $\mathbf{X}$ as $\mathbf{x}_i$, then the $(i,j)$ term of $\mathbf{X}\mathbf{X^T}$ can be written as $(\mathbf{X}\mathbf{X^T})_{i,j}=\langle\mathbf{x}_i, \mathbf{x}_j\rangle$, which is a linear kernel. In fact, we can use other kernels to rewrite the similarity matrix. Let $\mathbf{K}_{ij}=k(\mathbf{x}_i, \mathbf{x}_j)$ and $\mathbf{L}_{ij}=l(\mathbf{y}_i, \mathbf{y}_j)$ where $k$ and $l$ are two kernels, ⚪ then if we further make $\mathbf{K}$ and $\mathbf{L}$ column-centered (since they are symmetric matrices, column-centered would mean row-centered), then we can rewrite the similarity metric as
 </p>
 
 ✅ **CKA:**
@@ -125,15 +125,15 @@ s(\mathbf{X}, \mathbf{Y})=\frac{\langle\text{vec}(\mathbf{K}), \text{vec}(\mathb
 where $\|\cdot\|_F$ is the Frobenius norm. 
 </p>
 
-A common nonlinear kernel is the RBF kernel, where 
+A common nonlinear kernel is the RBF kernel, given by 
 
 \begin{aligned}
-k(\mathbf{x}_i, \mathbf{x}_j)=\exp (\frac{-\lVert\mathbf{x}_i-\mathbf{x}_j\rVert_2^2}{2\sigma^2})
+k(\mathbf{x}_i, \mathbf{x}_j)=\exp (\frac{-\lVert\mathbf{x}_i-\mathbf{x}_j\rVert_2^2}{2\sigma^2}),
 \end{aligned}
 
 with a hyperparameter $\sigma$.
 
-CKA seems to outperform previous methods on analyzing the similarity of ANNs' response across multiple layers. Intuitively, for a feedforward network, consecutive layers should be more similar to each other than layers far away in the stack, when they are trained with different random initializations. However, previous methods fail to reproduce this intuition as in the figure, where similarity should be high close to the diagonal. CKA captures well this property, with linear and nonlinear kernels, hence better determines the relationship between hidden layers in ANNs.
+CKA seems to outperform previous methods on characterizing the similarity of ANNs' response across multiple layers. Intuitively, for a feedforward network, consecutive layers should be more similar to each other than layers far away in the stack. However, previous methods fail to reproduce this intuition as shown in the figure below, where similarity should be high close to the diagonal. CKA captures this property well, either with linear or nonlinear kernels, hence better identifies the correspondence between hidden layers in ANNs.
 
 <img src="/images/cka.png" width=500>
 
