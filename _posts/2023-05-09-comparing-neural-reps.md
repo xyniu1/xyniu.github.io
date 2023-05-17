@@ -95,13 +95,13 @@ The family of linear regression methods is perhaps the most classical one, and r
 
 Centered Kernel Alignment
 -----
-This section mainly refers to [this paper][5].
+This section mainly refers to [this paper][5] by Kornblith, Norouzi, Lee, and Hinton.
 
-The methods so far have focused on comparing neurons (or in a more machine learning language, comparing features), i.e., comparing the columns of $\mathbf{X}$ and $\mathbf{Y}$. Alternatively, one can compare images or the rows, which means to compare how different the neurons as a population respond to one image or another. ⚪ Column-center $\mathbf{X}$ (each column has zero mean), then $\mathbf{XX^T}\in\mathbb{R}^{m\times m}$ shows how different the population response is for every pair of the $m$ images, and is a statistics of the source system.
+The methods so far have focused on comparing neurons (or in a more machine learning language, comparing features), i.e., comparing the columns of $\mathbf{X}$ and $\mathbf{Y}$. Alternatively, one can compare images or the rows, which means to compare how different the neurons as a population respond to one image or another. ⚪ Column-center $\mathbf{X}$ (each column has zero mean), then $\mathbf{XX^T}\in\mathbb{R}^{m\times m}$ gives the dot product of population responses between every pair of images, and is a statistics of the source system.
 
 🧠 This is called representational similarity matrix in neuroscience. 
 
-One can compare this statistics between the source system and the target system, by first vectorize the similarity matrix, take a dot product, and normalize.
+One can compare this statistics between the source system and the target system, by first vectorize the similarity matrix, take a dot product, and then normalize.
 
 ✅ **Dot product-based similarity:** 
 \begin{aligned}
