@@ -91,7 +91,7 @@ There is a perhaps more popular way of doing dimension reduction, PCA, principal
 
 In practice, Brain-Score first applies PCA on ANN responses, then carry out PLS between ANNs and the neural responses (in V4 and IT).
 
-The family of linear regression methods is perhaps the most classical one, and remains an important benchmark. But here is the thing to be cautious of: these methods are invariant to invertible linear transformations. For one-side projection, defining $\hat{\mathbf{X}}=\mathbf{XM}$, or for dual projections, defining $\hat{\mathbf{X}}=\mathbf{XM}$, $\hat{\mathbf{Y}}=\mathbf{YN}$ for invertible matrices $\mathbf{M}$ and $\mathbf{N}$ will give the same similarity score. One need to think through whether this is the desirable scenario. Moreover, if the network is very wide, i.e., the number of neurons is close to or even larger than the number of observations, then it is easy to find $\mathbf{M}$ and $\mathbf{N}$ to make $\hat{\mathbf{X}}$ and $\hat{\mathbf{Y}}$ very similar, giving a falsely high similarity score.
+The family of linear regression methods is perhaps the most classical one, and remains an important benchmark. But here is the thing to be cautious of: these methods (except for PLS) are invariant to invertible linear transformations. For one-side projection, defining $\hat{\mathbf{X}}=\mathbf{XM}$, or for dual projections, defining $\hat{\mathbf{X}}=\mathbf{XM}$, $\hat{\mathbf{Y}}=\mathbf{YN}$ for invertible matrices $\mathbf{M}$ and $\mathbf{N}$ will give the same similarity score. One need to think through whether this is the desirable scenario. Moreover, if the network is very wide, i.e., the number of neurons is close to or even larger than the number of observations, then it is easy to find $\mathbf{M}$ and $\mathbf{N}$ to make $\hat{\mathbf{X}}$ and $\hat{\mathbf{Y}}$ very similar, giving a falsely high similarity score.
 
 Centered Kernel Alignment
 -----
@@ -101,7 +101,7 @@ The methods so far have focused on comparing neurons (or in a more machine learn
 
 🧠 This is called representational similarity matrix in neuroscience. 
 
-One can compare this statistics between the source system and the target system, by first vectorize the similarity matrix, take a dot product, and then normalize.
+One can compare this statistics between the source system and the target system: first vectorize the similarity matrix, take a dot product, and then normalize.
 
 ✅ **Dot product-based similarity:** 
 \begin{aligned}
@@ -111,15 +111,15 @@ s(\mathbf{X}, \mathbf{Y}) = \frac{\langle\text{vec}(\mathbf{X}\mathbf{X^T}), \te
 where $\|\cdot\|_F$ is the Frobenius norm.
 </p>
 
-Let's look at this metric more closely. First, it is invariant to isotropic scaling due to the normalizing denominator, which means $s(\mathbf{X}, \mathbf{Y})=s(\alpha\mathbf{X}, \beta\mathbf{Y})$. Note that it is not invariant to scaling of the whole matrix, not of individual rows or columns of $\mathbf{X}$, which has the flavor of PLS compared to CCA. Second, it is not invariant to any invertible linear transformations, but only to orthogonal matrices $\mathbf{M}$ with $\mathbf{M}\mathbf{M^T}=\mathbf{I}$. It is a more stringent invariance and thus is preferable in the pathological case where the number of neurons is close to the number of images.
+Let's look at this similarity score more closely. First, it is invariant to isotropic scaling due to the normalizing denominator, which means $s(\mathbf{X}, \mathbf{Y})=s(\alpha\mathbf{X}, \beta\mathbf{Y})$. Note that it is invariant to scaling of the whole matrix, not of individual rows or columns of $\mathbf{X}$. Second, it is not invariant to all invertible linear transformations, but only to orthogonal matrices $\mathbf{M}$ with $\mathbf{M}\mathbf{M^T}=\mathbf{I}$. It is a more stringent invariance and thus is preferable in the pathological case where the number of neurons is close to the number of images.
 
 <p>
-If we write the rows of $\mathbf{X}$ as $\mathbf{x}_i$, then the $(i,j)$ term of $\mathbf{X^T}\mathbf{X}$ can be written as $(\mathbf{X^T}\mathbf{X})_{i,j}=\langle\mathbf{x}_i, \mathbf{x}_j\rangle$, which is a linear kernel. In fact, we can use other kernels to express the similarity matrix. Let $\mathbf{K}_{ij}=k(\mathbf{x}_i, \mathbf{x}_j)$ and $\mathbf{L}_{ij}=l(\mathbf{y}_i, \mathbf{y}_j)$ where $k$ and $l$ are two kernels, ⚪ then if we further make $\mathbf{K}$ and $\mathbf{L}$ column-centered (since they are symmetric matrices, column-centered would mean row-centered), then we can rewrite the similarity metric as
+If we write the rows of $\mathbf{X}$ as $\mathbf{x}_i$, then the $(i,j)$ term of $\mathbf{X}^T\mathbf{X}$ can be written as $(\mathbf{X}^T\mathbf{X})_{i,j}=\langle\mathbf{x}_i, \mathbf{x}_j\rangle$, which is a linear kernel. In fact, we can use other kernels to rewrite the similarity matrix. Let $\mathbf{K}_{ij}=k(\mathbf{x}_i, \mathbf{x}_j)$ and $\mathbf{L}_{ij}=l(\mathbf{y}_i, \mathbf{y}_j)$ where $k$ and $l$ are two kernels, ⚪ then if we further make $\mathbf{K}$ and $\mathbf{L}$ column-centered (since they are symmetric matrices, column-centered would mean row-centered), then we can rewrite the similarity metric as
 </p>
 
 ✅ **CKA:**
 \begin{aligned}
-s(\mathbf{X}, \mathbf{Y})=\frac{\langle\text{vec}(\mathbf{K}), \text{vec}(\mathbf{L})\rangle}{\lVert\text{vec}(\mathbf{K})\rVert\lVert\text{vec}(\mathbf{L})\rVert}=\frac{\lVert\mathbf{K^T}\mathbf{L}\rVert_F}{\sqrt{\lVert\mathbf{K}\rVert_F \lVert\mathbf{L}\rVert_F}},
+s(\mathbf{X}, \mathbf{Y})=\frac{\langle\text{vec}(\mathbf{K}), \text{vec}(\mathbf{L})\rangle}{\lVert\text{vec}(\mathbf{K})\rVert\lVert\text{vec}(\mathbf{L})\rVert}=\frac{\lVert\mathbf{K^T}\mathbf{L}\rVert_F}{\lVert\mathbf{K}\rVert_F \lVert\mathbf{L}\rVert_F},
 \end{aligned}
 <p>
 where $\|\cdot\|_F$ is the Frobenius norm. 
