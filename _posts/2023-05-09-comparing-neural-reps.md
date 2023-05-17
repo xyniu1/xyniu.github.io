@@ -229,10 +229,12 @@ d(\mathbf{X}, \mathbf{Y})=\min_{T \in \mathcal{G}} \arccos \frac{\langle\mathbf{
 
 where ${\rho}_l$ is the singular values of $(\mathbf{X}^\phi)^T(\mathbf{Y}^\phi)/\lVert\mathbf{X}^{\phi}\rVert \lVert\mathbf{Y}^{\phi}\rVert$. While in CCA, $\sum_l \rho_l$ is usually used as the similarity score (this can be derived from the previous section: optimal solution of CCA). The two similarity indices differ by an $\arccos (\cdot)$ operator, but the first one is a proper metric while the second one is not.
 
-The most significant advantage of the shape metric is that it enables the comparison of more than two networks at the same time. If we have the pairwise distance of multiple networks, we can use multidimensional scaling (MDS) to embed each network into a vector of length $L$. MDS find those vectors by trying to preserve all these pairwise distances given by all possible pairs of the networks. In the figure below, each point is the response matrix $\mathbf{X}$ in a specific brain area embedding by MDS then visualized in the 2D PC space, where similar colors mean the same anatomical region. It is clear that anatomically related regions indeed have similar responses under the shape metric.
+The most significant advantage of the shape metric is that it enables the comparison of more than two networks at the same time. If we have the pairwise distance of multiple networks, we can use multidimensional scaling (MDS) to embed each network into a vector of length $L$, which is a predetermined hyperparameter. MDS find those vectors by trying to preserve all these pairwise distances given by all possible pairs of the networks. In the figure below, each point is the response matrix $\mathbf{X}$ of a specific brain area embedding by MDS then visualized in the 2D PC space, where similar colors mean the same anatomical region. It is clear that anatomically related regions indeed have similar responses under the shape metric.
 
 
 <img src="/images/shape.svg">
+
+To be continued...
 
 
 
