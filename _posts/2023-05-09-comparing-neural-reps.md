@@ -26,7 +26,7 @@ Let $\mathbf{X}$ be the responses to a set of images in a source system (e.g., a
 
 <img src="/images/setup.svg">
 
-🧠 While the ANN responses are usually static and deterministic, neural activities embed unique time dynamics and are stochastic, i.e., their responses can be different for the same input. For the first problem, the standard practice is to count the number of spikes during a certain time period after the stimulus onset (for example, [Brain Score][1] chooses 70ms to 170ms after image onset). The second problem is more subtle. For most of the methods we discuss, they average the responses over repeated trials, but some argue the trial variability also plays an important role.
+🧠 While the ANN responses are usually static and deterministic, neural activities embed unique time dynamics and are stochastic, i.e., their responses can be different for the same input. For the first problem, the standard practice is to count the number of spikes during a certain time period after the stimulus onset (for example, 70ms to 170ms after image onset). The second problem is more subtle. For most of the methods we discuss, they average the responses over repeated trials, but some argue the trial variability also plays an important role.
 
 🧠 The number of neurons recorded is usually on the scale of hundreds, and the number of images shown to the neurons is usually on the scale of hundreds or thousands.
 
@@ -38,15 +38,15 @@ We usually need to fit some parameters to quantify similarity. Always split your
 A bag of linear regression methods
 ------
 
-One important ANN-brain similarity benchmark, [Brain Score][1], gives a great example of deploying linear regression methods to this problem. 
+One important ANN-brain similarity benchmark, [Brain Score][1], gives a great example of how to apply linear regression methods to this problem. 
 
-✅ **Linear Regression:** It aims to find $\mathbf{w}_i\in\mathbb{R}^{p}$ for each neuron in the target system that maximizes the correlation between the predicted response
+✅ **Linear Regression:** It aims to find $\mathbf{w}_i\in\mathbb{R}^{p}$ for each neuron in the source system that maximizes the correlation between the predicted response
 
 \begin{aligned}
 \mathbf{\hat{y}}_i=\mathbf{X}\mathbf{w}_i
 \end{aligned}
 
-and the real response
+and the real response of neuron $i$ in $\mathbf{Y}$
 
 \begin{aligned}
 r_i=\text{corr}(\mathbf{y}_i, \mathbf{\hat{y}}_i).
@@ -55,9 +55,9 @@ r_i=\text{corr}(\mathbf{y}_i, \mathbf{\hat{y}}_i).
 Then take the median of $r_i$ over all neurons in the target system.
 
 The reason for taking a median is that neural responses usually follow a non-normal distribution. Direct use of linear regression to compare neural representations is seldom favored because:
-1. It tends to overfit when the number of neurons is close to or even larger than the number of observations, which indeed happens with ANNs;
-2. It is not robust if the neurons' responses are correlated, which is very common in a real neural population;
-3. It is not symmetric - switching the dependent and independent variables (or the source and target system) will give a different similarity score.
+1. It tends to overfit when the number of neurons is close to or even larger than the number of observations, which is indeed the case with ANNs;
+2. It is not robust if the neurons' responses are correlated, which is very common in real neurons within a population;
+3. It is not symmetric - switching the dependent and independent variables (the source and the target system) will give a different similarity score.
 
 Therefore, Brain Score proposes to do some dimension reduction before carrying out linear regression. They choose PLS, partial least squares regression, which has the following definition:
 
