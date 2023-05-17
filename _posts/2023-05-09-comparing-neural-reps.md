@@ -38,7 +38,7 @@ We usually need to fit some parameters to quantify similarity. Always split your
 A bag of linear regression methods
 ------
 
-One important ANN-brain similarity benchmark, [Brain Score][1], gives a great example of how to apply linear regression methods to this problem. 
+One important ANN-brain similarity benchmark, [Brain-Score][1], gives a great example of how to apply linear regression methods to this problem. 
 
 ✅ **Linear Regression:** It aims to find $\mathbf{w}_i\in\mathbb{R}^{p}$ for each neuron in the source system that maximizes the correlation between the predicted response
 
@@ -59,7 +59,7 @@ The reason for taking a median is that neural responses usually follow a non-nor
 2. It is not robust if the neurons' responses are correlated, which is very common in real neurons within a population;
 3. It is not symmetric - switching the dependent and independent variables (the source and the target system) will give a different similarity score.
 
-Therefore, Brain Score proposes to do some dimension reduction before carrying out linear regression. They choose PLS, partial least squares regression, which has the following definition:
+Therefore, Brain-Score proposes to do some dimension reduction before carrying out linear regression. They choose PLS, partial least squares regression, which has the following definition:
 
 ✅ **PLS:** Find vectors $\mathbf{a}_i$ and $\mathbf{b}_i$ and take the projections $\mathbf{u}_i=\mathbf{X}\mathbf{a}_i$, $\mathbf{v}_i=\mathbf{Y}\mathbf{b}_i$ to maximize
 
@@ -83,15 +83,15 @@ for $i\neq j$.
 
 Note: Some versions of PLS formulate the problem in a matrix decomposition way, but I find this version more intuitive. 
 
-PLS closely resembles CCA, canonical-correlation analysis, and the only difference is that CCA tries to maximize the correlation $\text{corr}(\mathbf{u}_i, \mathbf{v}_i)$ instead of covariance. When one neuron's response is multiplied by a constant larger than $1$, its covariance with other neurons will also increase. Therefore, PLS puts more weight to high-response neurons when comparing two networks.
+PLS closely resembles CCA, canonical-correlation analysis, and the only difference is that CCA tries to maximize the correlation $\text{corr}(\mathbf{u}_i, \mathbf{v}_i)$ instead of covariance. When one neuron's response is multiplied by a constant larger than $1$, its covariance with other neurons will also increase. Therefore, PLS puts more weight to high-response neurons when computing the similarity score.
 
 🧠 This is a reasonable choice since high-response neurons in the brain usually have high signal-to-noise ratio and are more informative.
 
-There is a perhaps more popular way of doing dimension reduction, PCA, principal component analysis, and the procedure of first applying PCA than linear regression is called principal component regression (PCR). Compared to PLS that find dual projections to maximize the covariance between two systems' responses, PCR  picks out directions that maximize the variance of only one system within itself. However, directions where $\mathbf{X}$ is the most spread out are not necessarily correlated with $\mathbf{Y}$, which makes PCR inefficient in maximizing the correlation between two systems. On the other hand, people argue that dimension reduction should be done in an unsupervised way to avoid over-fitting, i.e., reducing the dimension of $\mathbf{X}$ should be done without knowing the value of $\mathbf{Y}$, which is exactly what PCR does. For a detailed comparison between these two methods, see a nice [demo][2] by scikit-learn.
+There is a perhaps more popular way of doing dimension reduction, PCA, principal component analysis, and the procedure of first applying PCA than linear regression is called principal component regression (PCR). Compared to PLS that find dual projections to maximize the covariance between two systems' responses, PCR  picks out directions that maximize the variance within only one system itself. However, directions where $\mathbf{X}$ is the most spread out are not necessarily correlated with $\mathbf{Y}$, which makes PCR inefficient in maximizing the correlation between two systems. On the other hand, some people favor PCR because they think dimension reduction should be done in an unsupervised way to avoid over-fitting, i.e., reducing the dimension of $\mathbf{X}$ should be done without knowing the value of $\mathbf{Y}$, which is exactly what PCR does. For a detailed comparison between these two methods, see a nice [demo][2] by scikit-learn.
 
-In practice, brain-score first applies PCA on ANN responses, then carry out PLS between ANNs and the neural responses (in V4 and IT).
+In practice, Brain-Score first applies PCA on ANN responses, then carry out PLS between ANNs and the neural responses (in V4 and IT).
 
-The family of linear regression methods is perhaps the most classical one, and remains an important benchmark. But one needs to be cautious about one thing: these methods are invariant to invertible linear transformations. For one-side projection, defining $\hat{\mathbf{X}}=\mathbf{XM}$, or for dual projections, defining $\hat{\mathbf{X}}=\mathbf{XM}$, $\hat{\mathbf{Y}}=\mathbf{YN}$ for invertible matrices $\mathbf{M}$ and $\mathbf{N}$ will give the same similarity score. One need to think through whether this is the desirable scenario. Moreover, if the network is very wide, i.e., the number of neurons is close to or even larger than the number of observations, then it is easy to find $\mathbf{M}$ and $\mathbf{N}$ to make $\hat{\mathbf{X}}$ and $\hat{\mathbf{Y}}$ very similar, giving a falsely high similarity score.
+The family of linear regression methods is perhaps the most classical one, and remains an important benchmark. But here is the thing to be cautious of: these methods are invariant to invertible linear transformations. For one-side projection, defining $\hat{\mathbf{X}}=\mathbf{XM}$, or for dual projections, defining $\hat{\mathbf{X}}=\mathbf{XM}$, $\hat{\mathbf{Y}}=\mathbf{YN}$ for invertible matrices $\mathbf{M}$ and $\mathbf{N}$ will give the same similarity score. One need to think through whether this is the desirable scenario. Moreover, if the network is very wide, i.e., the number of neurons is close to or even larger than the number of observations, then it is easy to find $\mathbf{M}$ and $\mathbf{N}$ to make $\hat{\mathbf{X}}$ and $\hat{\mathbf{Y}}$ very similar, giving a falsely high similarity score.
 
 Centered Kernel Alignment
 -----
