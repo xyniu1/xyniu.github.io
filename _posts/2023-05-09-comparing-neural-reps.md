@@ -177,7 +177,7 @@ On the other hand, linear CKA can be expressed as
 
 where ${\lambda}_X^i$ and ${\lambda}_Y^j$ are the eigenvalues of $\mathbf{XX^T}$ and $\mathbf{YY^T}$, respectively.
 
-Both of the solutions are weighted sums of the inner product between the left singular vectors of $\mathbf{X}$ and $\mathbf{Y}$. Compared to CCA that puts equal weight on the inner products, CKA puts more weight on directions that explain more variance of $\mathbf{X}$ and $\mathbf{Y}$, on the idea that eigenvectors corrsponding to smaller eigenvalues are less important. It has the flavor of PCR that reduces dimensionality in an unsupervised way.
+Both of the solutions are weighted sums of the inner product between the left singular vectors of $\mathbf{X}$ and $\mathbf{Y}$. Compared to CCA that puts equal weight on the inner products, CKA puts more weight on directions that explain more variance of $\mathbf{X}$ and $\mathbf{Y}$, on the idea that eigenvectors corresponding to smaller eigenvalues are less important. It has the flavor of PCR that reduces dimensionality in an unsupervised way.
 
 Although our derivation imposes requirement on the rank of $\mathbf{X}$ and $\mathbf{Y}$, CKA does not have those requirement in practice. It can be computed without any matrix decompositions, and are shown to be effective when the number of neurons exceeds the number of images.
 
@@ -191,11 +191,11 @@ This is where statistical shape analysis comes in handy, as introduced in [this 
 
 This method requires $\mathbf{X}$ and $\mathbf{Y}$ to have the same dimension. Therefore, we need to first find a transformation $\phi$ that makes both of the response matrix have shape $(m, k)$. From now on, we shall assume both $\mathbf{X}$ and $\mathbf{Y}$ act on the same space $\mathbb{R}^{m\times k}$.
 
-To find a proper metric $d$ that allows the comparison of multiple networks at the same time, we first need to define "equality". That is, under what operation $T$, we can have $d(\mathbf{X}, \mathbf{X}T)=0$ for any response matrix $\mathbf{X}$, or intuitively, we consider $\mathbf{X}$ and $\mathbf{X}T$ "the same"? We have seen that in the bag of linear regression methods, any invertible linear transformations $T$ applied on $\mathbf{X}$ will give the same similarity score. In CKA, the similarity metric is invariant to orthogonal transformations. Here, we impose a more strict condition on $T$ and restrict it to be a linear isometry, that is, $T$ is a linear transformaion that preserves length. On $\mathbb{R}^{m \times k}$ and $\mathbb{S}^{m \times k}$, linear isometries are necessarily othorgonal, therefore, $T$ belongs to a subgroup of the set of othorgonal transformations $\mathcal{O}(p)=\{\mathbf{Q} \in \mathbb{R}^{k \times k}: \mathbf{Q}^T \mathbf{Q}=\mathbf{I}\}$.
+To find a proper metric $d$ that allows the comparison of multiple networks at the same time, we first need to define "equality". That is, under what operation $T$, we can have $d(\mathbf{X}, \mathbf{X}T)=0$ for any response matrix $\mathbf{X}$, or intuitively, we consider $\mathbf{X}$ and $\mathbf{X}T$ "the same"? We have seen that in the bag of linear regression methods, any invertible linear transformations $T$ applied on $\mathbf{X}$ will give the same similarity score. In CKA, the similarity metric is invariant to orthogonal transformations. Here, we impose a more strict condition on $T$ and restrict it to be a linear isometry, that is, $T$ is a linear transformation that preserves length. On $\mathbb{R}^{m \times k}$ and $\mathbb{S}^{m \times k}$, linear isometries are necessarily orthogonal, therefore, $T$ belongs to a subgroup of the set of orthogonal transformations $\mathcal{O}(p)=\lbrace\mathbf{Q} \in \mathbb{R}^{k \times k}: \mathbf{Q}^T \mathbf{Q}=\mathbf{I}\rbrace$.
 
 These descriptions give a feasible range of $T$ to be chosen from. For example, we can choose $T$ to be the set of permutation matrices, that is, if we randomly permute the columns of $\mathbf{X}$, we will consider the representation to be identical. This generally makes sense because neurons don't have intrinsic orders. We can alternatively choose $T$ to be the set of rotation matrices, that is, if we randomly rotate the vector of population response by some degree, the representation should be considered unchanged. Rotating the population response can lead to negative values, hence this choice may or may not be acceptable when representing neuron firing rates. Finally, one can always use the most strict equality and only allow $T$ to be the identity mapping.
 
-Once we find an ideal group of $T$, Alex showed the following two expressions are proper metrics, i.e. they obey triangular inequality.
+Once we find an ideal group of $T$, Alex showed the following two expressions are proper metrics, i.e. they obey triangle inequality.
 
 ✅ **Generalized shape metrics:** If we let $\mathcal{G}$ be the group of $T$ that we choose, then
 
@@ -207,11 +207,32 @@ d(\mathbf{X}, \mathbf{Y})=\min_{T\in\mathcal{G}}\lVert \mathbf{X}-\mathbf{Y}T\rV
 or
 
 \begin{aligned}
-d(\mathbf{X}, \mathbf{Y})=\min_{T\in\mathcal{G}} \arccos \langle \mathbf{X}, \mathbf{Y}T \rangle
+d(\mathbf{X}, \mathbf{Y})=\min_{T\in\mathcal{G}} \arccos \frac{\langle \mathbf{X}, \mathbf{Y}T \rangle}{\lVert\mathbf{X}\rVert \lVert\mathbf{Y}\rVert}
 \end{aligned}
 </p>
 
 defines a proper metric, and can be used to evaluate the dissimilarity of multiple representations at the same time.
+
+Immediately we notice that these two forms look very different from the similarity scores we saw before. Previously, the score $r^2$ is mostly defined on covariance matrices, ⚪ which is a squared form of $\mathbf{X}$ if $\mathbf{X}$ is column-centered, but now the dissimilarity $d$ is directly defined on $\mathbf{X}$ up to transformation $T$. Also, in the second definition, the dissimilarity metric can have negative values. 
+
+Meanwhile, the flexibility in defining $\phi$ and $T$ gives a wide range of possibilities of the specific form of $d$. If chosen properly, certain $d$ can have a similar form with the previous methods. Alex showed one example in the paper that if we consider a partial whitening transformation for $\phi$,
+
+\begin{aligned}
+\mathbf{X}^{\phi}=\mathbf{C} \mathbf{X}(\alpha \mathbf{I}+(1-\alpha)(\mathbf{X}^T \mathbf{C} \mathbf{X})^{-1 / 2}),
+\end{aligned}
+
+where $\mathbf{C}=\mathbf{I}-(1/m)\mathbf{1}\mathbf{1}^T$ is a centering matrix; and choose $T\in\mathcal{G}$ to be the group of rotation matrices, the metric
+
+\begin{aligned}
+d(\mathbf{X}, \mathbf{Y})=\min_{T \in \mathcal{G}} \arccos \frac{\langle\mathbf{X}^{\phi}, \mathbf{Y}^{\phi} T\rangle}{\lVert\mathbf{X}^{\phi}\rVert \lVert\mathbf{Y}^{\phi}\rVert}=\arccos \sum_l \rho_l,
+\end{aligned}
+
+where ${\rho}_l$ is the singular values of $(\mathbf{X}^\phi)^T(\mathbf{Y}^\phi)/\lVert\mathbf{X}^{\phi}\rVert \lVert\mathbf{Y}^{\phi}\rVert$. While in CCA, $\sum_l \rho_l$ is usually used as the similarity score (this can be derived from the previous section: optimal solution of CCA).
+
+The most significant advantage of the shape metric is that it enables the comparison of more than two networks at the same time. If we have the pairwise distance of multiple networks, we can use multidimensional scaling (MDS) to embed each network into a vector of length $L$. MDS find those vectors by trying to preserve all these pairwise distances given by all possible pairs of the networks. In the figure below, each point is the response matrix $\mathbf{X}$ in a specific brain area embedding by MDS then visualized in the 2D PC space, where similar colors mean the same anatomical region. It is clear that anatomically related regions indeed have similar responses under the shape metric.
+
+
+<img src="/images/shape.svg">
 
 
 
