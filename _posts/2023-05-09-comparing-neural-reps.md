@@ -137,7 +137,7 @@ CKA seems to outperform previous methods on characterizing the similarity of ANN
 
 <img src="/images/cka.png" width=500>
 
-(Optional: How is CKA related to CCA?) We have identified two advantages of CKA over the bag of linear regression methods - read the section again if you don't know what those are. Therefore, it may seem that CKA is very different from them. But it's not. Linear CKA is just a weighted CCA under mild assumptions. 
+(Optional: How is CKA related to CCA?) We have identified two advantages of CKA over the bag of linear regression methods - read the section again if you don't know what those are. Therefore, it may seem that CKA is very different from them. But it's not. CKA with linear kernels is just a weighted CCA under mild assumptions. 
 
 To see that, let's first look at the optimal solution of CCA. If $\mathbf{X}\in\mathbb{R}^{m \times p}$ has full rank $p$, $\mathbf{Y}\in\mathbb{R}^{m \times n}$ has full rank $n$, ⚪ and they are column-centered,
 
@@ -147,16 +147,16 @@ To see that, let's first look at the optimal solution of CCA. If $\mathbf{X}\in\
 R^2_{\text{CCA}} = \frac{\sum \text{eigenvalues of } (\mathbf{X^TX})^{-1/2}(\mathbf{X^TY})(\mathbf{Y^TY})^{-1}(\mathbf{Y^TX})(\mathbf{X^TX})^{-1/2}}{p}.
 \end{aligned}
 
-Since the sum of eigenvalues equal to trace, and this big matrix is a matrix square, this measure can be rewritten as
+Since the sum of eigenvalues equals to trace, and this big matrix is a matrix square, this measure can be rewritten as
 
 \begin{aligned}
-R^2_{\text{CCA}} = \lVert (\mathbf{Y^TY})^{-1/2}(\mathbf{Y^TX})(\mathbf{X^TX})^{-1/2} \rVert_F^2.
+R^2_{\text{CCA}} = \lVert (\mathbf{Y^TY})^{-1/2}(\mathbf{Y^TX})(\mathbf{X^TX})^{-1/2} \rVert_F^2 / p.
 \end{aligned}
 
 Take singular decomposition $\mathbf{X}=\mathbf{U}_X\mathbf{\Sigma}_X\mathbf{V}_X$ and $\mathbf{Y}=\mathbf{U}_Y\mathbf{\Sigma}_Y\mathbf{V}_Y$, we have
 
 \begin{aligned}
-R^2_{\text{CCA}} = \lVert \mathbf{V}_Y^T\mathbf{U}_Y^T\mathbf{U}_X\mathbf{V}_X \rVert_F^2 = \lVert \mathbf{U}_Y^T\mathbf{U}_X \rVert_F^2,
+R^2_{\text{CCA}} = \lVert \mathbf{V}_Y^T\mathbf{U}_Y^T\mathbf{U}_X\mathbf{V}_X \rVert_F^2 / p = \lVert \mathbf{U}_Y^T\mathbf{U}_X \rVert_F^2 / p,
 \end{aligned}
 
 since $\mathbf{V}_X$ and $\mathbf{V}_Y$ are orthogonal matrices that preserve norm. Finally, write the $i^{\text{th}}$ eigenvector of $\mathbf{XX^T}$ as $\mathbf{u}_X^i$, we have
@@ -177,7 +177,7 @@ On the other hand, linear CKA can be expressed as
 
 where ${\lambda}_X^i$ and ${\lambda}_Y^j$ are the eigenvalues of $\mathbf{XX^T}$ and $\mathbf{YY^T}$, respectively.
 
-Both of the solutions are weighted sums of the inner product between the left singular vectors of $\mathbf{X}$ and $\mathbf{Y}$. Compared to CCA that puts equal weight on the inner products, CKA puts more weight on directions that explain more variance of $\mathbf{X}$ and $\mathbf{Y}$, on the idea that eigenvectors corresponding to smaller eigenvalues are less important. It has the flavor of PCR that reduces dimensionality in an unsupervised way.
+Both of the solutions are weighted sums of the inner product between the left singular vectors of $\mathbf{X}$ and $\mathbf{Y}$. Compared to CCA that puts equal weight on the inner products, CKA puts more weight on directions that explain more variance of $\mathbf{X}$ and $\mathbf{Y}$, on the idea that eigenvectors corresponding to smaller eigenvalues are less important. It has the flavor PCR - both in an unsupervised way, PCR reduces dimensionality while CKA adopts a softer version to put unequal weights on each dimension.
 
 Although our derivation imposes requirement on the rank of $\mathbf{X}$ and $\mathbf{Y}$, CKA does not have those requirement in practice. It can be computed without any matrix decompositions, and are shown to be effective when the number of neurons exceeds the number of images.
 
